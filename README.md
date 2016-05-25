@@ -10,9 +10,8 @@ TODO:
 
 ## Installation
 
-1- Install the [SQLAnywhere PHP module](http://scn.sap.com/docs/DOC-40537) first.
-
-2- Use Composer to install the package. Add th following line to `require`:
+1. Install the [SQLAnywhere PHP module](http://scn.sap.com/docs/DOC-40537) first.
+2. Use Composer to install the package. Add th following line to `require`:
 
     // ...
     "require": {
@@ -20,9 +19,9 @@ TODO:
     },
     // ...
 
-# How to use
+## How to use
 
-### Initialize `SQLAnywhereClient::__construct`:
+### Initialize the connection `SQLAnywhereClient::__construct`:
 
 ```php
 <?php
@@ -31,7 +30,7 @@ TODO:
     use Pxlcore\SQLAnywhereClient;
 
     try {
-        $dns = "uid={usuario};pwd={senha};ENG={name-do-banco};commlinks=tcpip{host={seu-host};port={sua-porta}}";
+        $dns = "uid={user};pwd={pwd};ENG={eng};commlinks=tcpip{host={host};port={port}}";
         $con = new SQLAnywhereClient( $dns );
     } catch (Exception $e) {
         echo $e->getMessage();
