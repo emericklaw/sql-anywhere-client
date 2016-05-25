@@ -1,19 +1,19 @@
 {
-    "name": "cagartner/sql-anywhere-client",
+    "name": "pxlcore/sql-anywhere-client",
     "description": "Client for connection with sybase",
     "license": "MIT",
     "authors": [
         {
-            "name": "Carlos Augusto Gartner",
-            "email": "contato@carlosgartner.com.br"
+            "name": "Stephan Rennert",
+            "homepage": "https://github.com/pxlcore/"
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.5.9"
     },
     "autoload": {
         "psr-0": {
-            "Cagartner": "src/"
+            "Pxlcore": "src/"
         }
     }
 }

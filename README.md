@@ -1,56 +1,53 @@
 SQLAnywhereClient
 =================
 
-Classe para conexão com banco de dados Sybase com PHP baseada na biblioteca sqlanywhere.
+Class to connect to the Sybase database using the SQLAnywhere extension.
 
-Classe foi baseada na Classe Nativa do PDO.
+This class is based on the native PDO class.
 
 TODO:
-- Testar classe com eficácia
- 
-## Instalação
-=================
+- test class
 
-1- Primeiro instale o modulo do sqlanywhere em seu PHP [Clincando aqui!](http://scn.sap.com/docs/DOC-40537).
+## Installation
 
-2- Use o composer para instalar o package ao seu projeto adicionado a linha abaixo ao `require`:
+1- Install the [SQLAnywhere PHP module](http://scn.sap.com/docs/DOC-40537) first.
+
+2- Use Composer to install the package. Add th following line to `require`:
 
     // ...
     "require": {
-        "cagartner/SQLAnywhereClient": "dev-master"
+        "pxlcore/SQLAnywhereClient": "dev-master"
     },
     // ...
 
-# Como usar
+# How to use
 
-Abaixo você ve alguns exemplos de como usar a classe:
-
-### Conexão `SQLAnywhereClient::__construct`:
+### Initialize `SQLAnywhereClient::__construct`:
 
 ```php
 <?php
     require '../vendor/autoload.php';
 
-    use Cagartner\SQLAnywhereClient;
+    use Pxlcore\SQLAnywhereClient;
 
     try {
-        $dns = "uid={usuario};pwd={senha};ENG={nome-do-banco};commlinks=tcpip{host={seu-host};port={sua-porta}}";
+        $dns = "uid={usuario};pwd={senha};ENG={name-do-banco};commlinks=tcpip{host={seu-host};port={sua-porta}}";
         $con = new SQLAnywhereClient( $dns );
     } catch (Exception $e) {
         echo $e->getMessage();
     }
 ?>
 ```
-Você pode definir duas opções iniciais junto com a conexão, que são as seguintes: `auto_commit` e `is_persistent`.
+You have two options: `auto_commit` e `is_persistent`.
 
-* `auto_commit` Ativa os commits automaticamente por padrão é `true`;
-* `is_persistent` Define conexão no modo persistente por padrão é `false`;
+* `auto_commit` autocommit, default is `true`;
+* `is_persistent` persistent connection, default is `false`;
 
 ```php
 <?php
     require '../vendor/autoload.php';
 
-    use Cagartner\SQLAnywhereClient;
+    use Pxlcore\SQLAnywhereClient;
 
     try {
         $dns = "uid={uid};pwd={senha};ENG={};commlinks=tcpip{host={seuuhost};port={suasenha}}";
@@ -65,12 +62,12 @@ Você pode definir duas opções iniciais junto com a conexão, que são as segu
 ```
 
 
-### Executar comando SQL `SQLAnywhereClient::exec()`:
+### Excecute SQL command `SQLAnywhereClient::exec()`:
 
 ```php
 <?php
 
-    $sql = "SELECT * FROM Usuarios";
+    $sql = "SELECT * FROM users";
     $result = $con->exec( $sql );
 
     echo "<pre>";
@@ -80,163 +77,143 @@ Você pode definir duas opções iniciais junto com a conexão, que são as segu
 ?>
 ```
 
-### Executar comando SQL com retorno de dados `SQLAnywhereClient::query()` :
+### Execute SQL command with return values `SQLAnywhereClient::query()` :
 
 Método retornar um array com várias posições
 
 ```php
 <?php
 
-    $sql = "SELECT nome, email FROM Usuarios";
+    $sql = "SELECT name, email FROM users";
 
-    foreach ($con->query( $sql ) as $resultado) {
-        print_r($resultado);
+    foreach ($con->query( $sql ) as $result) {
+        print_r($result);
     }
     exit;
 ?>
 ```
 
-### Retornar uma linha `SQLAnywhereQuery::fetch`
+### Return one row `SQLAnywhereQuery::fetch`
 
-Retornar a primeira linha
+Returns the first line
 
 ```php
 <?php
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
-    $usuario = $resultado->fetch();
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
+    $user = $result->fetch();
 
-    print_r($usuario);
+    print_r($user);
     exit;
 ?>
 ```
- 
-### Formato de retorno dos dados
 
-Podemos escolher o formato dos dados no retorno com as seguintes constantes da classe `SQLAnywhereClient`
+### Return format
+
+The return format of class `SQLAnywhereClient` could be
+
 ```php
 <?php
-    // Retornar em um array com idexação por numero e coluna
+    // ...
     SQLAnywhereClient::FETCH_ARRAY;
 
-    // Retornar em um array com idexação por coluna
-    SQLAnywhereClient::FETCH_ASSOC; // Formato Padrão!
+    // ...
+    SQLAnywhereClient::FETCH_ASSOC; // default format!
 
-    // Retornar em um array com idexação por coluna
+    // ...
     SQLAnywhereClient::FETCH_OBJECT;
 
-    // Retornar em um array com idexação por linha de dados
+    // ...
     SQLAnywhereClient::FETCH_ROW;
 
-    // Retornar em um array com idexação por colunas
+    // ...
     SQLAnywhereClient::FETCH_FIELD;
 ?>
 ```
 
-Exemplo:
+Example:
 
 ```php
 <?php
 
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
-    $usuario = $resultado->fetch( SQLAnywhereClient::FETCH_OBJECT );
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
+    $user = $result->fetch( SQLAnywhereClient::FETCH_OBJECT );
 
-    print_r($usuario);
+    print_r($user);
     exit;
 ?>
 ```
 
-### Retornar todas as linhas `SQLAnywhereQuery::fetchAll`
-
-Retornar Todas as linhas encontradas
+### Return all rows `SQLAnywhereQuery::fetchAll`
 
 ```php
 <?php
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
-    $usuario = $resultado->fetchAll();
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
+    $user = $result->fetchAll();
 
-    print_r($usuario);
+    print_r($user);
     exit;
 ?>
 ```
 
-Como no caso assima do fetch, você pode retornar os valores em diferentes formatos utilizando as mesmas constantes, exemplo:
-
+You could use different return formats.
 ```php
 <?php
 
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
-    $usuario = $resultado->fetchAll( SQLAnywhereClient::FETCH_OBJECT );
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
+    $user = $result->fetchAll( SQLAnywhereClient::FETCH_OBJECT );
 
-    print_r($usuario);
+    print_r($user);
     exit;
 ?>
 ```
 
-### Números de linhas `SQLAnywhereQuery::rowCount`
+### Number of rows `SQLAnywhereQuery::rowCount`
 
-Retornar o total de linhas encontradas
+Returns the number of rows.
 
 ```php
 <?php
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
 
-    echo "Foram encontrados " . $resultado->rowCount() . " registros.";
+    echo "Number of rows: " . $result->rowCount();
     exit;
 ?>
 ```
 
-Ou também da seguinte maneira: 
+Or like
 
 ```php
 <?php
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
 
-    echo "Foram encontrados " . $resultado->count() . " registros.";
+    echo "Number of rows: " . $result->count();
     exit;
 ?>
 ```
 
-### Números de colunas `SQLAnywhereQuery::fieldCount`
-
-Retornar o total de colunas encontradas
+### Number of columns `SQLAnywhereQuery::fieldCount`
 
 ```php
 <?php
-    $sql = "SELECT nome, email FROM Usuarios";
-    $resultado = $con->exec( $sql );
+    $sql = "SELECT name, email FROM users";
+    $result = $con->exec( $sql );
 
-    echo "Foram encontrados " . $resultado->fieldCount() . " colunas na tabela.";
+    echo "Found " . $result->fieldCount() . " columns in the table.";
     exit;
 ?>
 ```
 
-### Último Id inserido `SQLAnywhereClient::lastInsertId()` 
-
-Retorna o último o valor do último id inserido na conexão
+### Last ID `SQLAnywhereClient::lastInsertId()`
 
 ```php
 <?php
-    $sql = "INSERT INTO Usuarios  nome, email VALUES ('Carlos', 'contato@carlosgartner.com.br')";
-    if ($con->exec( $sql )) {
-        echo $con->lastInsertId();
-    }
-    exit;
-?>
-```
-
-### Último Id inserido `SQLAnywhereClient::lastInsertId()` 
-
-Retorna o último o valor do último id inserido na conexão
-
-```php
-<?php
-    $sql = "INSERT INTO Usuarios  nome, email VALUES ('Carlos', 'contato@carlosgartner.com.br')";
+    $sql = "INSERT INTO users  name, email VALUES ('Carlos', 'contato@carlosgartner.com.br')";
     if ($con->exec( $sql )) {
         echo $con->lastInsertId();
     }
@@ -246,11 +223,11 @@ Retorna o último o valor do último id inserido na conexão
 
 ### Prepared Statement `SQLAnywhereClient::prepare()`:
 
-Preparar sql usando `?`:
+Use `?` for Prepared Statement:
 
 ```php
 <?php
-    $sql = "INSERT INTO Usuarios  nome, email VALUES (?, ?)";
+    $sql = "INSERT INTO users  name, email VALUES (?, ?)";
     $stmnt = $con->prepare( $sql );
     if ($stmnt->execute(array('Carlos', 'contato@carlosgartner.com.br'))) {
          echo $con->lastInsertId();
@@ -259,14 +236,14 @@ Preparar sql usando `?`:
 ?>
 ```
 
-E usando nomes para os parametros:
+or use named parameters:
 
 ```php
 <?php
-    $sql = "INSERT INTO Usuarios  nome, email VALUES (:nome, :email)";
+    $sql = "INSERT INTO users  name, email VALUES (:name, :email)";
     $stmnt = $con->prepare( $sql );
     if ($stmnt->execute(array(
-        ':nome' => 'Carlos', 
+        ':name' => 'Carlos',
         ':email' => 'contato@carlosgartner.com.br'
     ))) {
          echo $con->lastInsertId();
@@ -275,17 +252,17 @@ E usando nomes para os parametros:
 ?>
 ```
 
-### Bind Param `SQLAnywherePrepared::bindParam()`:
+### Bind Parameters `SQLAnywherePrepared::bindParam()`:
 
 ```php
 <?php
-    $sql = "INSERT INTO Usuarios  nome, email VALUES (:nome, :email)";
+    $sql = "INSERT INTO users  name, email VALUES (:name, :email)";
     $stmnt = $con->prepare( $sql );
 
-    $nome = "Carlos A.";
+    $name = "Carlos A.";
     $email = "contato@carlosgartner.com.br";
 
-    $stmnt->bindParam(':nome', $nome);
+    $stmnt->bindParam(':name', $name);
     $stmnt->bindParam(':email', $email);
 
     if ($stmnt->execute()) {

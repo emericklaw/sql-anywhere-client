@@ -1,8 +1,8 @@
-<?php namespace Cagartner;
+<?php namespace Pxlcore;
 
-use Cagartner\SQLAnywherePrepared AS SQLAnywherePrepared, 
-Cagartner\SQLAnywhereQuery AS SQLAnywhereQuery,
-Exception;
+use Pxlcore\SQLAnywherePrepared AS SQLAnywherePrepared;
+use Pxlcore\SQLAnywhereQuery AS SQLAnywhereQuery;
+use Exception;
 
 /**
 * @author Carlos A Gartner <contato@carlosgartner.com.br>
@@ -11,7 +11,7 @@ class SQLAnywhereClient
 {
 	const VERSION      = '1.0';
 
-	public $connected     = false;	
+	public $connected     = false;
 	public $status        = null;
 
 	protected $connection = false;
@@ -39,9 +39,9 @@ class SQLAnywhereClient
 	protected $query 	  = null;
 	protected $sql_string = null;
 	protected $num_rows   = 0;
-	
+
 	/**
-	 * Create connection fybase
+	 * Create connection sybase
 	 * @param string  $dns        String connection for sybase
 	 * @param boolean $persistent Define connection for persistent
 	 */
@@ -51,8 +51,8 @@ class SQLAnywhereClient
 		$this->persistent = $persistent;
 		$this->autocommit = $autocommit;
 
-		if (!function_exists('sasql_connect')) 
-			throw new Exception("SQL Anywhere model not install in this server!", 100);			
+		if (!function_exists('sasql_connect'))
+			throw new Exception("SQL Anywhere model not install in this server!", 100);
 
 		// Verifica se a conexão é persistente
 		if ( $this->persistent ) {
@@ -62,33 +62,33 @@ class SQLAnywhereClient
 		}
 
 		if ( !$this->connection )
-			throw new Exception("Connection Problem :: " . sasql_error( ), 101);
+			throw new Exception("Connection Problem: " . sasql_error( ), 101);
 
 		// Define option auto_commit
 		if ( $this->connection ) {
 			sasql_set_option($this->connection, 'auto_commit', ($this->autocommit ? 'on' : 0));
 			$this->dbinfo = Array($dns, $autocommit, $persistent);
-		}		
+		}
 	}
 
 	/**
-	 * Retunr Array of itens
+	 * Return Array of itens
 	 * @param  string $sql_string SQL command
-	 * @return array|boolean           
+	 * @return array|boolean
 	 */
 	public function query($sql_string, $return=self::FETCH_ASSOC)
 	{
 		$query = self::exec( $sql_string );
 		if ( $query ) {
 			return $query->fetch($return);
-		} 
-		return 0;		
+		}
+		return 0;
 	}
 
 	/**
-	 * Exec a query os sql comand
-	 * @param  string $sql_string SQÇ Command
-	 * @return SQLAnywhereQuery|boolean            
+	 * Exec a query or sql command
+	 * @param  string $sql_string SQL Command
+	 * @return SQLAnywhereQuery|boolean
 	 */
 	public function exec($sql_string)
 	{
@@ -97,13 +97,17 @@ class SQLAnywhereClient
 		if ( $query ) {
 			return new SQLAnywhereQuery( $query, $this->connection );
 		} else {
-			throw new Exception("SQL String Problem :: " . sasql_error( $this->connection ), 110);		
+			throw new Exception("SQL String Problem: " . sasql_error( $this->connection ), 110);
 		}
 		return 0;
 	}
 
 	/**
-	 * Returns the last value inserted into an IDENTITY column or a DEFAULT AUTOINCREMENT column, or zero if the most recent insert was into a table that did not contain an IDENTITY or DEFAULT AUTOINCREMENT column. 
+	 * Returns the last value inserted into an IDENTITY column or
+	 * a DEFAULT AUTOINCREMENT column, or zero if the most recent
+	 * insert was into a table that did not contain an IDENTITY or
+	 * DEFAULT AUTOINCREMENT column.
+	 *
 	 * @return integer Last insert ID.
 	 */
 	public function inserted_id()
@@ -112,19 +116,23 @@ class SQLAnywhereClient
 	}
 
 	/**
-	 * PDO Compability 
-	 * Returns the last value inserted into an IDENTITY column or a DEFAULT AUTOINCREMENT column, or zero if the most recent insert was into a table that did not contain an IDENTITY or DEFAULT AUTOINCREMENT column. 
+	 * PDO Compability
+	 * Returns the last value inserted into an IDENTITY column or
+	 * a DEFAULT AUTOINCREMENT column, or zero if the most recent
+	 * insert was into a table that did not contain an IDENTITY or
+	 * DEFAULT AUTOINCREMENT column.
+	 * 
 	 * @return integer Last insert ID.
 	 */
 	public function lastInsertId()
 	{
 		return sasql_insert_id( $this->connection );
 	}
-	
+
 	/**
 	 * Create a prepared statement an store it in self::stmnt
 	 * @param  string $sql_string SQL string
-	 * @return \SQLAnywherePrepared         
+	 * @return \SQLAnywherePrepared
 	 */
 	public function prepare($sql_string, $array=array())
 	{
@@ -134,7 +142,7 @@ class SQLAnywhereClient
 
 	/**
 	 * Return error code for connection
-	 * @return int 
+	 * @return int
 	 */
 	public function errorCode()
 	{

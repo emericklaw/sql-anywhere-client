@@ -1,6 +1,6 @@
-<?php namespace Cagartner;
+<?php namespace Pxlcore;
 
-use Cagartner\SQLAnywhereQuery AS SQLAnywhereQuery;
+use Pxlcore\SQLAnywhereQuery AS SQLAnywhereQuery;
 
 /**
 * @author Carlos A Gartner <contato@carlosgartner.com.br>

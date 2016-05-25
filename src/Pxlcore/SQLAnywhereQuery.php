@@ -1,9 +1,9 @@
-<?php namespace Cagartner;
+<?php namespace Pxlcore;
 
-use Cagartner\SQLAnywhereClient;
+use Pxlcore\SQLAnywhereClient;
 
 /**
- * Classe para trabalhar com a query
+ * Handles the query
 * @author Carlos A Gartner <contato@carlosgartner.com.br>
 */
 class SQLAnywhereQuery
@@ -14,13 +14,13 @@ class SQLAnywhereQuery
 	protected $connection;
 
 	function __construct( $result, $connection )
-	{		
+	{
 		$this->result     = $result;
 		$this->connection = $connection;
 	}
 
 	/**
-	 * Returns number os rows of the query.
+	 * Returns number of rows of the query.
 	 * @return integer
 	 */
 	public function rowCount()
@@ -29,7 +29,7 @@ class SQLAnywhereQuery
 	}
 
 	/**
-	 * Returns number os rows of the query.
+	 * Returns number of fields of the query.
 	 * @return integer
 	 */
 	public function fieldCount()
@@ -38,7 +38,7 @@ class SQLAnywhereQuery
 	}
 
 	/**
-	 * Returns number os rows of the query.
+	 * Returns number of fields of the query.
 	 * @return integer
 	 */
 	public function columnCount()
@@ -56,21 +56,23 @@ class SQLAnywhereQuery
 	}
 
 	/**
-	 * Returns number os rows of the query.
+	 * Returns number of rows of the query.
 	 * This function is for simple of name
 	 * @return integer
 	 */
 	public function count($type='row')
 	{
-		if ($type=='row')
-			return sasql_num_rows( $this->result );
+		if ($type == 'row') {
+            return sasql_num_rows( $this->result );
+        }
+
 		return sasql_num_fields( $this->connection );
 	}
 
 	/**
 	 * Return one row of result
 	 * @param  constant $type Format of return
-	 * @return array|object       
+	 * @return array|object
 	 */
 	public function fetch($type=SQLAnywhereClient::FETCH_ASSOC)
 	{
@@ -96,11 +98,11 @@ class SQLAnywhereQuery
 				case 'object':
 					$data = sasql_fetch_object( $this->result );
 				break;
-				
+
 				default:
 					$data = sasql_fetch_array( $this->result );
 				break;
-			}		
+			}
 		}
 		return $data;
 	}
@@ -108,12 +110,12 @@ class SQLAnywhereQuery
 	/**
 	 * Return All values of Results in one choose format
 	 * @param  constant $type Format of return
-	 * @return array       
+	 * @return array
 	 */
 	public function fetchAll($type=SQLAnywhereClient::FETCH_ASSOC)
 	{
 		$data = array();
-		
+
 		if ($this->result) {
 			switch ($type) {
 				case 'array':
@@ -138,21 +140,21 @@ class SQLAnywhereQuery
 
 				case 'object':
 					while ($row = sasql_fetch_object( $this->result ))
-						array_push($data, $row);			
+						array_push($data, $row);
 				break;
-				
+
 				default:
 					while ($row = sasql_fetch_array( $this->result ))
 						array_push($data, $row);
 				break;
-			}		
+			}
 		}
 
 		return $data;
 	}
 
 	/**
-	 * Return value of de Result in Onject
+	 * Return value of the Result in Object
 	 * @return object Results
 	 */
 	public function fetchObject()
