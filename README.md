@@ -37,7 +37,7 @@ TODO:
     }
 ?>
 ```
-You have two options: `auto_commit` e `is_persistent`.
+You have two options: `auto_commit` or `is_persistent`.
 
 * `auto_commit` autocommit, default is `true`;
 * `is_persistent` persistent connection, default is `false`;
