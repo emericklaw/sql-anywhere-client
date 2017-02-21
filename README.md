@@ -5,9 +5,6 @@ Class to connect to the Sybase database using the SQLAnywhere extension.
 
 This class is based on the native PDO class.
 
-TODO:
-- test class
-
 ## Installation
 
 1. Install the [SQLAnywhere PHP module](http://scn.sap.com/docs/DOC-40537) first.
@@ -30,8 +27,8 @@ TODO:
     use Pxlcore\SQLAnywhereClient;
 
     try {
-        $dns = "uid={user};pwd={pwd};ENG={eng};commlinks=tcpip{host={host};port={port}}";
-        $con = new SQLAnywhereClient( $dns );
+        $dsn = "uid={user};pwd={pwd};eng={eng};commlinks=tcpip{host={host};port={port}}";
+        $con = new SQLAnywhereClient( $dsn );
     } catch (Exception $e) {
         echo $e->getMessage();
     }
@@ -49,11 +46,11 @@ You have two options: `auto_commit` or `is_persistent`.
     use Pxlcore\SQLAnywhereClient;
 
     try {
-        $dns = "uid={uid};pwd={senha};ENG={};commlinks=tcpip{host={seuuhost};port={suasenha}}";
+        $dsn = "uid={uid};pwd={pwd};eng={};commlinks=tcpip{host={host};port={port}}";
         $autocommit = false;
         $persistent = true;
 
-        $con = new SQLAnywhereClient( $dns, $autocommit, $persistent );
+        $con = new SQLAnywhereClient( $dsn, $autocommit, $persistent );
     } catch (Exception $e) {
         echo $e->getMessage();
     }
@@ -212,7 +209,7 @@ Or like
 
 ```php
 <?php
-    $sql = "INSERT INTO users  name, email VALUES ('Carlos', 'contato@carlosgartner.com.br')";
+    $sql = "INSERT INTO users (name, email) VALUES ('John', 'contact@johndoe.com')";
     if ($con->exec( $sql )) {
         echo $con->lastInsertId();
     }
@@ -226,9 +223,9 @@ Use `?` for Prepared Statement:
 
 ```php
 <?php
-    $sql = "INSERT INTO users  name, email VALUES (?, ?)";
+    $sql = "INSERT INTO users (name, email) VALUES (?, ?)";
     $stmnt = $con->prepare( $sql );
-    if ($stmnt->execute(array('Carlos', 'contato@carlosgartner.com.br'))) {
+    if ($stmnt->execute(array('John', 'contact@johndoe.com'))) {
          echo $con->lastInsertId();
     }
     exit;
@@ -239,11 +236,11 @@ or use named parameters:
 
 ```php
 <?php
-    $sql = "INSERT INTO users  name, email VALUES (:name, :email)";
+    $sql = "INSERT INTO users (name, email) VALUES (:name, :email)";
     $stmnt = $con->prepare( $sql );
     if ($stmnt->execute(array(
-        ':name' => 'Carlos',
-        ':email' => 'contato@carlosgartner.com.br'
+        ':name' => 'John',
+        ':email' => 'contact@johndoe.com'
     ))) {
          echo $con->lastInsertId();
     }
@@ -255,11 +252,11 @@ or use named parameters:
 
 ```php
 <?php
-    $sql = "INSERT INTO users  name, email VALUES (:name, :email)";
+    $sql = "INSERT INTO users (name, email) VALUES (:name, :email)";
     $stmnt = $con->prepare( $sql );
 
-    $name = "Carlos A.";
-    $email = "contato@carlosgartner.com.br";
+    $name = "John Doe";
+    $email = "contact@johndoe.com";
 
     $stmnt->bindParam(':name', $name);
     $stmnt->bindParam(':email', $email);

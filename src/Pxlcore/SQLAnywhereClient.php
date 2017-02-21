@@ -18,7 +18,7 @@ class SQLAnywhereClient
 	protected $server     = null;
 	protected $persistent = null ;
 	protected $autocommit = null ;
-	protected $dns        = null ;
+	protected $dsn        = null ;
 	protected $dbinfo     = array();
 
 	// Types os returns
@@ -42,12 +42,12 @@ class SQLAnywhereClient
 
 	/**
 	 * Create connection sybase
-	 * @param string  $dns        String connection for sybase
+	 * @param string  $dsn        String connection for sybase
 	 * @param boolean $persistent Define connection for persistent
 	 */
-	function __construct( $dns, $autocommit=true, $persistent=false )
+	function __construct( $dsn, $autocommit=true, $persistent=false )
 	{
-		$this->dns = $dns;
+		$this->dsn = $dsn;
 		$this->persistent = $persistent;
 		$this->autocommit = $autocommit;
 
@@ -56,9 +56,9 @@ class SQLAnywhereClient
 
 		// Verifica se a conexão é persistente
 		if ( $this->persistent ) {
-			$this->connection = sasql_pconnect( $this->dns );
+			$this->connection = sasql_pconnect( $this->dsn );
 		} else {
-			$this->connection = sasql_connect( $this->dns );
+			$this->connection = sasql_connect( $this->dsn );
 		}
 
 		if ( !$this->connection )
@@ -67,7 +67,7 @@ class SQLAnywhereClient
 		// Define option auto_commit
 		if ( $this->connection ) {
 			sasql_set_option($this->connection, 'auto_commit', ($this->autocommit ? 'on' : 0));
-			$this->dbinfo = Array($dns, $autocommit, $persistent);
+			$this->dbinfo = Array($dsn, $autocommit, $persistent);
 		}
 	}
 
@@ -121,7 +121,7 @@ class SQLAnywhereClient
 	 * a DEFAULT AUTOINCREMENT column, or zero if the most recent
 	 * insert was into a table that did not contain an IDENTITY or
 	 * DEFAULT AUTOINCREMENT column.
-	 * 
+	 *
 	 * @return integer Last insert ID.
 	 */
 	public function lastInsertId()
