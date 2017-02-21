@@ -78,7 +78,7 @@ You have two options: `auto_commit` or `is_persistent`.
 
 ### Execute SQL command with return values `SQLAnywhereClient::query()` :
 
-Método retornar um array com várias posições
+Returns an array with multiple values
 
 ```php
 <?php
