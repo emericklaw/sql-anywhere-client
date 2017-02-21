@@ -12,13 +12,13 @@ TODO:
 
 1. Install the [SQLAnywhere PHP module](http://scn.sap.com/docs/DOC-40537) first.
 2. Use Composer to install the package. Add th following line to `require`:
-
+```javascript
     // ...
     "require": {
         "pxlcore/SQLAnywhereClient": "dev-master"
     },
     // ...
-
+```
 ## How to use
 
 ### Initialize the connection `SQLAnywhereClient::__construct`:
