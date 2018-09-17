@@ -1,6 +1,6 @@
-<?php namespace Pxlcore;
+<?php namespace emericklaw;
 
-use Pxlcore\SQLAnywhereQuery AS SQLAnywhereQuery;
+use emericklaw\SQLAnywhereQuery AS SQLAnywhereQuery;
 
 /**
 * @author Carlos A Gartner <contato@carlosgartner.com.br>

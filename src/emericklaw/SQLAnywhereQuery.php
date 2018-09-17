@@ -1,6 +1,6 @@
-<?php namespace Pxlcore;
+<?php namespace emericklaw;
 
-use Pxlcore\SQLAnywhereClient;
+use emericklaw\SQLAnywhereClient;
 
 /**
  * Handles the query

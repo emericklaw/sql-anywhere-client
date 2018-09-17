@@ -12,7 +12,7 @@ This class is based on the native PDO class.
 ```javascript
     // ...
     "require": {
-        "pxlcore/SQLAnywhereClient": "dev-master"
+        "emericklaw/SQLAnywhereClient": "dev-master"
     },
     // ...
 ```
@@ -24,7 +24,7 @@ This class is based on the native PDO class.
 <?php
     require '../vendor/autoload.php';
 
-    use Pxlcore\SQLAnywhereClient;
+    use emericklaw\SQLAnywhereClient;
 
     try {
         $dsn = "uid={user};pwd={pwd};eng={eng};commlinks=tcpip{host={host};port={port}}";
@@ -43,7 +43,7 @@ You have two options: `auto_commit` or `is_persistent`.
 <?php
     require '../vendor/autoload.php';
 
-    use Pxlcore\SQLAnywhereClient;
+    use emericklaw\SQLAnywhereClient;
 
     try {
         $dsn = "uid={uid};pwd={pwd};eng={};commlinks=tcpip{host={host};port={port}}";

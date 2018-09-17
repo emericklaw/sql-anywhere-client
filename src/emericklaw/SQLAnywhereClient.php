@@ -1,7 +1,7 @@
-<?php namespace Pxlcore;
+<?php namespace emericklaw;
 
-use Pxlcore\SQLAnywherePrepared AS SQLAnywherePrepared;
-use Pxlcore\SQLAnywhereQuery AS SQLAnywhereQuery;
+use emericklaw\SQLAnywherePrepared AS SQLAnywherePrepared;
+use emericklaw\SQLAnywhereQuery AS SQLAnywhereQuery;
 use Exception;
 
 /**
