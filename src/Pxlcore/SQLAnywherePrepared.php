@@ -34,6 +34,17 @@ class SQLAnywherePrepared
 	}
 
 	/**
+	 * Bind Value
+	 * @return boolean       TRUE if binding the variables was successful or FALSE otherwise.
+	 */
+	public function bindValue($mixed, $value, $type = null) {
+		if(is_string($mixed))
+			$this->__boundParams[$mixed] = $value;
+		else
+			array_push($this->__boundParams, $value);
+	}
+
+	/**
 	 * Public method:
 	 *	Checks if query was valid and returns how may fields returns
      *       	this->columnCount( void ):Void
