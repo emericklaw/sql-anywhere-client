@@ -92,7 +92,7 @@ class SQLAnywherePrepared
 			}
 
 			if(isset($tempf))
-				$__query = str_replace($tempf, $tempr, $__query);
+				$__query = strtr($__query, array_combine($tempf, $tempr));
 		}
 		$this->__result = $this->__uquery($__query);
 		$this->__boundParams = array();
