@@ -79,7 +79,7 @@ class SQLAnywherePrepared
 					$parse = function($matchs) use ($connection, $array, $k) {
 						static $i = 0;
 
-						if($array[$i]==NULL || $array[$i]===FALSE){
+						if($array[$i]===NULL || $array[$i]===FALSE){
 							$i++;
 							return 'NULL';
 						}
